@@ -48,6 +48,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/cart/create', [CartController::class, 'create'])->name('cart.create.api');
     Route::post('/cart/list', [CartController::class, 'index'])->name('cart.list.api');
+    Route::post('/cart/close', [CartController::class, 'close'])->name('cart.close.api');
     Route::post('/cart/removeProduct', [CartController::class, 'removeProduct'])->name('cart.removeProduct.api');
 
 });

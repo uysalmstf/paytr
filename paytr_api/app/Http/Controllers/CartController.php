@@ -149,4 +149,59 @@ class CartController extends Controller
         }
 
     }
+
+    public function close(Request $request)
+    {
+        $activeCart = Carts::where('status', 1)->where('user_id', auth()->user()['id'])->first();
+
+        $totalPrice = 0;
+
+        if ($activeCart == null) {
+
+            $response = [
+                'message' => 'Process done',
+            ];
+        } else {
+
+            $activeCartProducts = CartProducts::where('cart_id', $activeCart->id)->orderBy('created_at')->get();
+            if ($activeCartProducts == null) {
+
+                $response = [
+                    'message' => 'Process done',
+                    'cart_detail' => array(),
+                    'total_price' => $totalPrice
+                ];
+            } else {
+
+                foreach ($activeCartProducts as $product) {
+
+                    $productDetail = Products::where('id', $product->product_id)->first();
+
+                    if ($productDetail != null) {
+
+                        $totalPrice += ($product->amount * $productDetail->price);
+
+                        $product->price = $productDetail->price;
+                        $product->save();
+                    }
+                }
+
+                $activeCart->total_price = $totalPrice;
+                $activeCart->status = 2; //tamamlanmış sepet
+
+                if ($activeCart->save()) {
+
+                    $response = [
+                        'message' => 'Process done',
+                    ];
+                } else {
+
+                    $response = ['errors' => "Process doesn't completed", 422];
+                }
+
+            }
+        }
+
+        return response($response, 200);
+    }
 }
