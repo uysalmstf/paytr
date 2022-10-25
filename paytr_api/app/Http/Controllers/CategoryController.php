@@ -19,7 +19,7 @@ class CategoryController extends Controller
 
         $categoryArray = array();
 
-        foreach ($categories as $category){
+        foreach ($categories as $category) {
 
             $catArr['id'] = $category->id;
             $catArr['name'] = $category->name;
@@ -28,7 +28,7 @@ class CategoryController extends Controller
         }
 
         $response = [
-            'message' =>  'Process done',
+            'message' => 'Process done',
             'categories' => $categoryArray];
         return response($response, 200);
     }
@@ -45,9 +45,8 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
         }
 
         $category = new Categories();
@@ -55,9 +54,9 @@ class CategoryController extends Controller
         $category->userid = auth()->user()['id'];
 
         if ($category->save()) {
-            $response = ['message' =>  'Process Done'];
+            $response = ['message' => 'Process Done'];
         } else {
-            $response = ['errors' =>  "Process doesn't completed", 422];
+            $response = ['errors' => "Process doesn't completed", 422];
         }
 
         return response($response, 200);
@@ -66,7 +65,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
@@ -76,18 +75,17 @@ class CategoryController extends Controller
             'id' => 'required|integer',
         ]);
 
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
         }
 
         $category = Categories::where('id', $request->get('id'))->first();
         $category->name = $request->get('name');
 
         if ($category->save()) {
-            $response = ['message' =>  'Edit Process Done'];
+            $response = ['message' => 'Edit Process Done'];
         } else {
-            $response = ['errors' =>  "Process doesn't completed", 422];
+            $response = ['errors' => "Process doesn't completed", 422];
         }
 
         return response($response, 200);
@@ -96,7 +94,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
@@ -105,18 +103,17 @@ class CategoryController extends Controller
             'id' => 'required|integer',
         ]);
 
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
         }
 
         $category = Categories::where('id', $request->get('id'))->first();
         $category->status = 0;
 
         if ($category->save()) {
-            $response = ['message' =>  'Delete Process Done'];
+            $response = ['message' => 'Delete Process Done'];
         } else {
-            $response = ['errors' =>  "Process doesn't completed", 422];
+            $response = ['errors' => "Process doesn't completed", 422];
         }
 
         return response($response, 200);

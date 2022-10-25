@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\ApiAuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ProductController;
@@ -44,6 +45,11 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/favourite/add', [FavouriteController::class, 'addOrRemoveFromFavourites'])->name('favourite.addOrRemoveFromFavourites.api');
     Route::post('/favourite/list', [FavouriteController::class, 'index'])->name('favourite.list.api');
+
+    Route::post('/cart/create', [CartController::class, 'create'])->name('cart.create.api');
+    Route::post('/cart/list', [CartController::class, 'index'])->name('cart.list.api');
+    Route::post('/cart/removeProduct', [CartController::class, 'removeProduct'])->name('cart.removeProduct.api');
+
 
 
 });

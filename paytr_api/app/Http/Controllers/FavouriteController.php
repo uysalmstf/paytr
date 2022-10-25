@@ -14,18 +14,17 @@ class FavouriteController extends Controller
             'product_id' => 'required|integer',
         ]);
 
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
         }
 
         $isAddedFavourites = Favourites::where('product_id', $request->get('product_id'))->where('user_id', auth()->user()['id'])->first();
         if ($isAddedFavourites != null) {
 
             if (Favourites::destroy($isAddedFavourites->id)) {
-                $response = ['message' =>  'Remove favourite Process Done'];
+                $response = ['message' => 'Remove favourite Process Done'];
             } else {
-                $response = ['errors' =>  "Process doesn't completed", 422];
+                $response = ['errors' => "Process doesn't completed", 422];
             }
         } else {
 
@@ -34,9 +33,9 @@ class FavouriteController extends Controller
             $favourite->product_id = $request->get('product_id');
 
             if ($favourite->save()) {
-                $response = ['message' =>  'Add Favourites Process Done'];
+                $response = ['message' => 'Add Favourites Process Done'];
             } else {
-                $response = ['errors' =>  "Process doesn't completed", 422];
+                $response = ['errors' => "Process doesn't completed", 422];
             }
         }
 
@@ -60,7 +59,7 @@ class FavouriteController extends Controller
         }
 
         $response = [
-            'message' =>  'Process done',
+            'message' => 'Process done',
             'favs' => $userFavList];
         return response($response, 200);
     }

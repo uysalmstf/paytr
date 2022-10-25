@@ -18,9 +18,8 @@ class ProductController extends Controller
             'price' => 'required|between:0,99.99',
         ]);
 
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
         }
 
         $product = new Products();
@@ -29,9 +28,9 @@ class ProductController extends Controller
         $product->category = $request->get('category');
 
         if ($product->save()) {
-            $response = ['message' =>  'Process Done'];
+            $response = ['message' => 'Process Done'];
         } else {
-            $response = ['errors' =>  "Process doesn't completed", 422];
+            $response = ['errors' => "Process doesn't completed", 422];
         }
 
         return response($response, 200);
@@ -47,9 +46,8 @@ class ProductController extends Controller
             'price' => 'required|between:0,99.99',
         ]);
 
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 422);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
         }
 
         $product = Products::where('id', $request->get('product_id'))->first();
@@ -58,9 +56,9 @@ class ProductController extends Controller
         $product->category = $request->get('category');
 
         if ($product->save()) {
-            $response = ['message' =>  'Process Done'];
+            $response = ['message' => 'Process Done'];
         } else {
-            $response = ['errors' =>  "Process doesn't completed", 422];
+            $response = ['errors' => "Process doesn't completed", 422];
         }
 
         return response($response, 200);
@@ -72,7 +70,7 @@ class ProductController extends Controller
 
         $productsArray = array();
 
-        foreach ($products as $product){
+        foreach ($products as $product) {
 
             $productItem = array();
 
@@ -85,7 +83,7 @@ class ProductController extends Controller
         }
 
         $response = [
-            'message' =>  'Process done',
+            'message' => 'Process done',
             'products' => $productsArray];
         return response($response, 200);
     }
