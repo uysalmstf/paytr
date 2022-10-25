@@ -15,7 +15,21 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $response = ['message' =>  '<function name> function'];
+        $categories = Categories::where('status', 1)->orderBy('name')->get();
+
+        $categoryArray = array();
+
+        foreach ($categories as $category){
+
+            $catArr['id'] = $category->id;
+            $catArr['name'] = $category->name;
+
+            $categoryArray[] = $catArr;
+        }
+
+        $response = [
+            'message' =>  'Process done',
+            'categories' => $categoryArray];
         return response($response, 200);
     }
 
@@ -50,51 +64,32 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $response = ['message' =>  '<function name> function'];
-        return response($response, 200);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $response = ['message' =>  '<function name> function'];
-        return response($response, 200);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        $response = ['message' =>  '<function name> function'];
-        return response($response, 200);
-    }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'id' => 'required|integer',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $response = ['message' =>  '<function name> function'];
+        if ($validator->fails())
+        {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $category = Categories::where('id', $request->get('id'))->first();
+        $category->name = $request->get('name');
+
+        if ($category->save()) {
+            $response = ['message' =>  'Edit Process Done'];
+        } else {
+            $response = ['errors' =>  "Process doesn't completed", 422];
+        }
+
         return response($response, 200);
     }
 
@@ -104,9 +99,26 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $response = ['message' =>  '<function name> function'];
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer',
+        ]);
+
+        if ($validator->fails())
+        {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $category = Categories::where('id', $request->get('id'))->first();
+        $category->status = 0;
+
+        if ($category->save()) {
+            $response = ['message' =>  'Delete Process Done'];
+        } else {
+            $response = ['errors' =>  "Process doesn't completed", 422];
+        }
+
         return response($response, 200);
     }
 }
