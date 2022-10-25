@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('/register',[ApiAuthController::class, 'register'])->name('register.api');
 
     Route::post('/category/list', [CategoryController::class, 'index'])->name('category.list.api');
+    Route::post('/product/list', [ProductController::class, 'index'])->name('product.list.api');
 
 
 });
@@ -34,6 +36,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/category/create', [CategoryController::class, 'create'])->name('category.create.api');
     Route::post('/category/edit', [CategoryController::class, 'edit'])->name('category.edit.api');
     Route::post('/category/delete', [CategoryController::class, 'destroy'])->name('category.delete.api');
+
+    Route::post('/product/create', [ProductController::class, 'create'])->name('product.create.api');
+    Route::post('/product/edit', [ProductController::class, 'edit'])->name('product.edit.api');
+    Route::post('/product/delete', [ProductController::class, 'delete'])->name('product.delete.api');
 
 
 });

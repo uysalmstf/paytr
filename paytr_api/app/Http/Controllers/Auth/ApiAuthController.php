@@ -53,10 +53,10 @@ class ApiAuthController extends Controller
             return response(['errors'=>$validator->errors()->all()], 422);
         }
 
-        $request['password']=Hash::make($request['password']);
+        $request['password'] = Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
 
-        $request['user_role'] = $request['user_role'] ? $request['user_role']  : 0;
+        $request['user_role'] = $request['user_role'] ? $request['user_role'] : 0;
 
         $user = User::create($request->toArray());
         $token = $user->createToken('authToken')->accessToken;;
