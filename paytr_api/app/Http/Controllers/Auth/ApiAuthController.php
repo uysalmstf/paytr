@@ -26,7 +26,7 @@ class ApiAuthController extends Controller
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken('Laravel Password Grant Client')->accessToken->token;
+                $token = $user->createToken('authToken')->accessToken;
                 $response = ['token' => $token];
                 return response($response, 200);
             } else {
@@ -56,8 +56,10 @@ class ApiAuthController extends Controller
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
 
+        $request['user_role'] = $request['user_role'] ? $request['user_role']  : 0;
+
         $user = User::create($request->toArray());
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken->token;
+        $token = $user->createToken('authToken')->accessToken;;
 
         $response = ['token' => $token];
 

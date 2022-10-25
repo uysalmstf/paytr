@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -22,9 +24,28 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $response = ['message' =>  '<function name> function'];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails())
+        {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $category = new Categories();
+        $category->name = $request->get('name');
+        $category->userid = auth()->user()['id'];
+
+        if ($category->save()) {
+            $response = ['message' =>  'Process Done'];
+        } else {
+            $response = ['errors' =>  "Process doesn't completed", 422];
+        }
+
         return response($response, 200);
     }
 
