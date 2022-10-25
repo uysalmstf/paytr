@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/product/create', [ProductController::class, 'create'])->name('product.create.api');
     Route::post('/product/edit', [ProductController::class, 'edit'])->name('product.edit.api');
     Route::post('/product/delete', [ProductController::class, 'delete'])->name('product.delete.api');
+
+    Route::post('/favourite/add', [FavouriteController::class, 'addOrRemoveFromFavourites'])->name('favourite.addOrRemoveFromFavourites.api');
+    Route::post('/favourite/list', [FavouriteController::class, 'index'])->name('favourite.list.api');
 
 
 });
