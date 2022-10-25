@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CartProducts;
 use App\Models\Carts;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -66,7 +67,60 @@ class CartController extends Controller
 
     public function index()
     {
+        //sadece aktif sepetin bilgileri gösterilmektedir. Aksi istenmediği görülmüştür.
+        $activeCart = Carts::where('status', 1)->where('user_id', auth()->user()['id'])->first();
 
+        $activeCartDetail = array();
+
+        $totalPrice = 0;
+
+        if ($activeCart == null) {
+
+            $response = [
+                'message' => 'Process done',
+                'cart_detail' => array(),
+                'total_price' => $totalPrice
+            ];
+        } else {
+
+            $activeCartProducts = CartProducts::where('cart_id', $activeCart->id)->orderBy('created_at')->get();
+            if ($activeCartProducts == null) {
+
+                $response = [
+                    'message' => 'Process done',
+                    'cart_detail' => array(),
+                    'total_price' => $totalPrice
+                ];
+            } else {
+
+                foreach ($activeCartProducts as $product) {
+
+                    $productDetail = Products::where('id', $product->product_id)->first();
+
+                    if ($productDetail != null ) {
+
+                        $totalPrice += ($product->amount * $productDetail->price);
+
+                        $productDetailArr = array();
+
+                        $productDetailArr['name'] = $productDetail->name;
+                        $productDetailArr['price'] = $productDetail->price;
+                        $productDetailArr['amount'] = $product->amount;
+
+                        $activeCartDetail[] = $productDetailArr;
+                    }
+                }
+
+                $response = [
+                    'message' => 'Process done',
+                    'cart_detail' => $activeCartDetail,
+                    'total_price' => $totalPrice
+                ];
+            }
+        }
+
+
+        return response($response, 200);
     }
 
     public function removeProduct(Request $request)

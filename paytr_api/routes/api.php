@@ -50,6 +50,4 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/cart/list', [CartController::class, 'index'])->name('cart.list.api');
     Route::post('/cart/removeProduct', [CartController::class, 'removeProduct'])->name('cart.removeProduct.api');
 
-
-
 });
