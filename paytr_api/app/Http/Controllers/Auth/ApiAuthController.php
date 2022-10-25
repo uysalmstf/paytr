@@ -14,7 +14,7 @@ class ApiAuthController extends Controller
     public function login (Request $request) {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
         ]);
 
         if ($validator->fails())
@@ -26,7 +26,7 @@ class ApiAuthController extends Controller
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken->token;
                 $response = ['token' => $token];
                 return response($response, 200);
             } else {
