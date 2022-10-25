@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/laravel/passport" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/league/uri" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/league/event" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/league/oauth2-server" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/league/uri-interfaces" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/lcobucci/jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/phpseclib/phpseclib" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/paragonie/constant_time_encoding" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/symfony/psr-http-message-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/defuse/php-encryption" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/php-http/message-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/nyholm/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/paytr_api/vendor/laravel/helpers" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
