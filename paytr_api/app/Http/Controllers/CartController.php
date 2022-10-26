@@ -99,13 +99,21 @@ class CartController extends Controller
 
                     if ($productDetail != null ) {
 
-                        $totalPrice += ($product->amount * $productDetail->price);
-
                         $productDetailArr = array();
 
                         $productDetailArr['name'] = $productDetail->name;
                         $productDetailArr['price'] = $productDetail->price;
                         $productDetailArr['amount'] = $product->amount;
+                        $productDetailArr['discount'] = $productDetail->discount;
+                        $productDetailArr['discount_price'] = 0;
+
+                        if ($productDetail->discount > 0) {
+
+                            $productDetail->price -= $productDetail->price * $productDetail->discount / 100;
+                            $productDetailArr['discount_price'] = $productDetail->price;
+                        }
+
+                        $totalPrice += ($product->amount * $productDetail->price);
 
                         $activeCartDetail[] = $productDetailArr;
                     }
@@ -178,6 +186,11 @@ class CartController extends Controller
                     $productDetail = Products::where('id', $product->product_id)->first();
 
                     if ($productDetail != null) {
+
+                        if ($productDetail->discount > 0) {
+
+                            $productDetail->price -= $productDetail->price * $productDetail->discount / 100;
+                        }
 
                         $totalPrice += ($product->amount * $productDetail->price);
 

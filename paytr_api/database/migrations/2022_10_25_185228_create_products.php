@@ -18,6 +18,7 @@ class CreateProducts extends Migration
             $table->string('name')->nullable(false);
             $table->float('price')->nullable(false);
             $table->integer('category')->nullable(false);
+            $table->integer('discount')->default(0);
             $table->integer('status')->default(1);
             $table->timestamps();
         });

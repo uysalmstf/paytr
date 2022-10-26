@@ -26,6 +26,7 @@ class ProductController extends Controller
         $product->name = $request->get('name');
         $product->price = $request->get('price');
         $product->category = $request->get('category');
+        $product->discount = $request->get('discount');
 
         if ($product->save()) {
             $response = ['message' => 'Process Done'];
@@ -53,6 +54,7 @@ class ProductController extends Controller
         $product = Products::where('id', $request->get('product_id'))->first();
         $product->name = $request->get('name');
         $product->price = $request->get('price');
+        $product->discount = $request->get('discount');
         $product->category = $request->get('category');
 
         if ($product->save()) {
@@ -77,6 +79,7 @@ class ProductController extends Controller
             $productItem['id'] = $product->id;
             $productItem['name'] = $product->name;
             $productItem['price'] = $product->price;
+            $productItem['discount'] = $product->discount;
             $productItem['category_id'] = $product->category;
 
             $productsArray[] = $productItem;
